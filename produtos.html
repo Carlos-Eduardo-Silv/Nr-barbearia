@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Loja - Nr Barbearia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Lucena</h1>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="Agendamento.html">Agendar</a>
+            <a href="produtos.html" style="color: gold;">Loja</a>
+            <span id="carrinho-count" style="background: gold; color: black; padding: 2px 8px; border-radius: 50%; margin-left: 10px;">0</span>
+        </nav>
+    </header>
+
+    <div class="container-produtos">
+        <h2>Nossa Loja</h2>
+        <div class="grid-produtos">
+            <div class="produto-card">
+                <div class="produto-img">🧴</div> <h3>Pomada Matte</h3>
+                <p>Fixação forte.</p>
+                <span class="preco">R$ 45,00</span>
+                <button class="btn-comprar" onclick="adicionarAoCarrinho('Pomada Matte', 45)">Adicionar ao Carrinho</button>
+            </div>
+
+            <div class="produto-card">
+        <div class="produto-img">💎</div>
+        <h3>Gel Cola Extra Forte</h3>
+        <p>Para penteados que precisam de fixação máxima.</p>
+        <span class="preco">R$ 20,00</span>
+        <button class="btn-comprar" onclick="adicionarAoCarrinho('Gel Cola', 20)">Adicionar ao Carrinho</button>
+         </div>
+
+         <div class="produto-card">
+        <div class="produto-img">🧼</div>
+        <h3>Balm de Barba</h3>
+        <p>Alinha os fios rebeldes e dá volume à barba.</p>
+        <span class="preco">R$ 40,00</span>
+        <button class="btn-comprar" onclick="adicionarAoCarrinho('Balm de Barba', 40)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto-card">
+        <div class="produto-img">🚿</div>
+        <h3>Shampoo 3 em 1</h3>
+        <p>Cabelo, barba e corpo. Limpeza profunda e refrescante.</p>
+        <span class="preco">R$ 50,00</span>
+        <button class="btn-comprar" onclick="adicionarAoCarrinho('Shampoo 3 em 1', 50)">Adicionar ao Carrinho</button>
+    </div>
+
+    <div class="produto-card">
+    <div class="produto-img">❄️</div>
+    <h3>Pós-Barba Ice</h3>
+    <p>Ação refrescante e cicatrizante. Fecha os poros após o corte.</p>
+    <span class="preco">R$ 30,00</span>
+    <button class="btn-comprar" onclick="adicionarAoCarrinho('Pós-Barba Ice', 30)">Adicionar ao Carrinho</button>
+</div>
+
+<div class="produto-card">
+        <div class="produto-img">🧔</div>
+        <h3>Óleo de Barba</h3>
+        <p>Hidrata os fios e a pele, com aroma amadeirado.</p>
+        <span class="preco">R$ 35,00</span>
+        <button class="btn-comprar" onclick="adicionarAoCarrinho('Óleo de Barba', 35)">Adicionar ao Carrinho</button>
+    </div>
+
+<div class="produto-card">
+        <div class="produto-img">🪮</div>
+        <h3>Pente de Madeira</h3>
+        <p>Anti-estático. Perfeito para não danificar os fios.</p>
+        <span class="preco">R$ 25,00</span>
+        <button class="btn-comprar" onclick="adicionarAoCarrinho('Pente de Madeira', 25)">Adicionar ao Carrinho</button>
+    </div>
+
+                    <button id="finalizar-loja" onclick="finalizarPedido()" style="margin-top: 50px; background: #25D366; color: white; display: none;">
+            Finalizar Pedido via WhatsApp
+        </button>
+    </div>
+
+    <script>let carrinho = [];
+
+function adicionarAoCarrinho(nome, preco) {
+    carrinho.push({ nome, preco });
+    atualizarInterface();
+}
+
+function atualizarInterface() {
+    // Atualiza o número no topo
+    document.getElementById("carrinho-count").innerText = carrinho.length;
+    
+    // Mostra o botão de finalizar se houver itens
+    const btnFinalizar = document.getElementById("finalizar-loja");
+    if (carrinho.length > 0) {
+        btnFinalizar.style.display = "inline-block";
+    }
+}
+
+function finalizarPedido() {
+    if (carrinho.length === 0) return;
+
+    let textoPedido = "Olá! Gostaria de comprar os seguintes produtos:\n\n";
+    let total = 0;
+
+    carrinho.forEach((item, index) => {
+        textoPedido += `${index + 1}. ${item.nome} - R$ ${item.preco}\n`;
+        total += item.preco;
+    });
+
+    textoPedido += `\n*Total: R$ ${total}*`;
+    
+    const numeroZap = "5513999999999"; // O TEU NÚMERO AQUI
+    const link = `https://wa.me/${numeroZap}?text=${encodeURIComponent(textoPedido)}`;
+    
+    // Limpa o carrinho após finalizar
+    carrinho = [];
+    atualizarInterface();
+    
+    window.open(link, "_blank");
+}</script>
+
+</body>
+</html>
