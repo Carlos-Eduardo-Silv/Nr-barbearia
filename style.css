@@ -325,3 +325,146 @@ button:hover {
   cursor: pointer;
   accent-color: gold; /* Cor do "v" quando marcado */
 }
+
+
+/* CONTAINER DE PRODUTOS */
+.container-produtos {
+    padding: 100px 5% 50px;
+    text-align: center;
+}
+
+.container-produtos h2 {
+    color: gold;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+/* GRID DE PRODUTOS */
+.grid-produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* CARD INDIVIDUAL */
+.produto-card {
+    background: #1c1c1c;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 15px;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.produto-card:hover {
+    border-color: gold;
+    transform: translateY(-10px);
+}
+
+.produto-img {
+    font-size: 60px; /* Temporário enquanto não tem fotos */
+    margin-bottom: 15px;
+}
+
+.produto-card h3 {
+    color: gold;
+    margin-bottom: 10px;
+}
+
+.produto-card p {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.preco {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* BOTÃO COMPRAR */
+.btn-comprar {
+    background: transparent;
+    border: 2px solid gold;
+    color: gold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.btn-comprar:hover {
+    background: gold;
+    color: #000;
+}
+
+.produto-card img {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background: #333; /* Fundo caso a imagem falhe */
+}
+
+#finalizar-loja {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    transition: 0.3s;
+}
+
+#finalizar-loja {
+    display: none; /* Começa escondido, o JS mostra */
+    margin: 40px auto;
+    background: #25D366;
+    color: white;
+    padding: 18px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+#finalizar-loja:hover {
+    transform: scale(1.05);
+    background: #1eb954;
+    box-shadow: 0 12px 25px rgba(37, 211, 102, 0.5);
+}
+
+.produto-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Empurra o botão para o final do card */
+    min-height: 420px; /* Garante que todos os cards tenham o mesmo tamanho */
+}
+
+#carrinho-count {
+    background: gold;
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 800;
+    margin-left: 5px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    display: inline-block;
+    vertical-align: middle;
+}
