@@ -294,7 +294,7 @@ button:hover {
 
 /* Responsividade Mobile */
 @media (max-width: 768px) {
-  nav { display: none; } /* Opcional: esconder menu em telas muito pequenas ou criar menu hamburguer */
+  nav { display: none; } 
   .overlay h2 { font-size: 2.8rem; }
   .hero { padding: 0 5%; text-align: center; justify-content: center; }
 }
@@ -323,7 +323,7 @@ button:hover {
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: gold; /* Cor do "v" quando marcado */
+  accent-color: gold; 
 }
 
 
@@ -367,7 +367,7 @@ button:hover {
 }
 
 .produto-img {
-    font-size: 60px; /* Temporário enquanto não tem fotos */
+    font-size: 60px; 
     margin-bottom: 15px;
 }
 
@@ -428,7 +428,7 @@ button:hover {
 }
 
 #finalizar-loja {
-    display: none; /* Começa escondido, o JS mostra */
+    display: none; 
     margin: 40px auto;
     background: #25D366;
     color: white;
