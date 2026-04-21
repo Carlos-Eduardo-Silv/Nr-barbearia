@@ -22,16 +22,17 @@
   </div>
 
   <!-- CADASTRO -->
-  <div id="cadastroBox" class="box" style="display: none;">
-    <h2>Criar Conta</h2>
-    <input type="email" id="emailCadastro" placeholder="Email">
-    <input type="password" id="senhaCadastro" placeholder="Senha">
-    <button onclick="cadastrar()">Cadastrar</button>
+ <div id="cadastroBox" class="box" style="display: none;">
+  <h2>Criar Conta</h2>
+  <input type="text" id="nomeCadastro" placeholder="Nome Completo">
+  <input type="email" id="emailCadastro" placeholder="Email">
+  <input type="password" id="senhaCadastro" placeholder="Senha">
+  <button onclick="cadastrar()">Cadastrar</button>
 
-    <p>Já tem conta
-      <a href="#" onclick="mostrarLogin(); return false;">Fazer login</a>
-    </p>
-  </div>
+  <p>Já tem conta
+    <a href="#" onclick="mostrarLogin(); return false;">Fazer login</a>
+  </p>
+</div>
 
   <!-- AGENDAMENTO -->
   <div id="agendamentoBox" class="box" style="display: none;">
@@ -45,10 +46,12 @@
 
   <div class="servicos-check">
     <p style="text-align: left; margin-bottom: 10px; color: gold;">Escolha os serviços:</p>
-    <label><input type="checkbox" name="servico" value="Corte"> Corte (R$ 40)</label>
-    <label><input type="checkbox" name="servico" value="Barba"> Barba (R$ 40)</label>
-    <label><input type="checkbox" name="servico" value="Sobrancelha"> Sobrancelha (R$ 10)</label>
-    <label><input type="checkbox" name="servico" value="Pezinho"> Pezinho (R$ 10)</label>
+    <label><input type="checkbox" name="servico" value="Corte"> Corte </label>
+    <label><input type="checkbox" name="servico" value="Barba"> Barba</label>
+    <label><input type="checkbox" name="servico" value="Corte + Barba"> Corte + Barba</label>
+    <label><input type="checkbox" name="servico" value="Sobrancelha"> Sobrancelha</label>
+    <label><input type="checkbox" name="servico" value="Pezinho"> Pezinho </label>
+    <label><input type="checkbox" name="servico" value="Pigmentação"> Pigmentação</label>
   </div>
 
   <input type="date" id="dataAgendamento" required>
@@ -64,32 +67,33 @@ const cadastroBox = document.getElementById("cadastroBox");
 const agendamentoBox = document.getElementById("agendamentoBox");
 
 // alternar telas
-function mostrarCadastro(){
+function mostrarCadastro() {
   loginBox.style.display = "none";
   cadastroBox.style.display = "block";
 }
 
-function mostrarLogin(){
-  cadastroBox.style.display ="none";
+function mostrarLogin() {
+  cadastroBox.style.display = "none";
   loginBox.style.display = "block";
 }
 
 // cadastrar usuario
-function cadastrar(){
+function cadastrar() {
+  const nome = document.getElementById("nomeCadastro").value;
   const email = document.getElementById("emailCadastro").value;
   const senha = document.getElementById("senhaCadastro").value;
 
-  if (!email || !senha) {
-    alert ("Preencha tudo");
+  if (!nome || !email || !senha) {
+    alert("Preencha todos os campos!");
     return;
   }
 
+  localStorage.setItem("nomeUsuario", nome);
   localStorage.setItem("email", email);
   localStorage.setItem("senha", senha);
 
-  alert("Conta criada com sucesso");
-
-  mostrarLogin(); 
+  alert("Conta criada com sucesso, " + nome + "!");
+  mostrarLogin();
 }
 
 // login
@@ -100,24 +104,41 @@ function login() {
   const emailSalvo = localStorage.getItem("email");
   const senhaSalva = localStorage.getItem("senha");
 
-  if (email == emailSalvo && senha == senhaSalva) {
+  if (email === emailSalvo && senha === senhaSalva) {
     localStorage.setItem("logado", "true");
-
-    loginBox.style.display = "none";
-    agendamentoBox.style.display = "block"; 
+    location.reload(); // Recarrega para aplicar as mudanças do window.onload
   } else {
-    alert ("Email ou senha inválidos");
+    alert("Email ou senha inválidos");
   }
 }
 
-// manter login
+// FUNÇÃO DE LOGOUT (O que estava faltando!)
+function logout() {
+  localStorage.removeItem("logado");
+  alert("Sessão encerrada!");
+  window.location.href = "index.html"; // Volta para a home
+}
+
+// manter login e travar data retroativa
 window.onload = function() {
-  if (localStorage.getItem("logado") == "true") {
+  if (localStorage.getItem("logado") === "true") {
     loginBox.style.display = "none";
     agendamentoBox.style.display = "block";
+    
+    // Preenche o nome automaticamente se estiver salvo
+    const nomeSalvo = localStorage.getItem("nomeUsuario");
+    if(nomeSalvo) {
+        document.getElementById("nomeClienteAgendamento").value = nomeSalvo;
+    }
   }
+
+  const hoje = new Date().toISOString().split('T')[0];
+  const campoData = document.getElementById('dataAgendamento');
+  if(campoData) campoData.setAttribute('min', hoje);
 }
 
+// Finalizar Agendamento
+// Finalizar Agendamento - VERSÃO CORRIGIDA
 document.getElementById("formAgendamento").addEventListener("submit", function(event) {
   event.preventDefault();
 
@@ -125,14 +146,12 @@ document.getElementById("formAgendamento").addEventListener("submit", function(e
   const data = document.getElementById("dataAgendamento").value;
   const hora = document.getElementById("horaAgendamento").value;
 
-  // Pegar todos os serviços marcados
   const checkboxes = document.querySelectorAll('input[name="servico"]:checked');
   let servicosEscolhidos = [];
   checkboxes.forEach((item) => {
     servicosEscolhidos.push(item.value);
   });
 
-  // Validar se pelo menos um serviço foi escolhido
   if (servicosEscolhidos.length === 0) {
     alert("Por favor, selecione ao menos um serviço!");
     return;
@@ -140,19 +159,25 @@ document.getElementById("formAgendamento").addEventListener("submit", function(e
 
   const novoAgendamento = {
     cliente: nome,
-    servicos: servicosEscolhidos.join(", "), // Junta os serviços com vírgula
+    servicos: servicosEscolhidos.join(", "),
     data: data,
     hora: hora
   };
 
-  // Salvar no LocalStorage
+  // --- O SALVAMENTO DEVE FICAR AQUI DENTRO ---
   let agendamentos = JSON.parse(localStorage.getItem("listaAgendamentos")) || [];
   agendamentos.push(novoAgendamento);
   localStorage.setItem("listaAgendamentos", JSON.stringify(agendamentos));
 
-  alert(`Agendamento realizado!\nCliente: ${nome}\nServiços: ${servicosEscolhidos.join(" + ")}\nData: ${data} às ${hora}`);
-  
-  this.reset();
+  // Efeito visual no botão
+  const btn = this.querySelector("button");
+  btn.innerText = "Agendando...";
+  btn.disabled = true;
+
+  setTimeout(() => {
+    alert(`Agendamento realizado!\nCliente: ${nome}\nServiços: ${servicosEscolhidos.join(" + ")}\nData: ${data} às ${hora}`);
+    window.location.href = "index.html"; // Redireciona para a principal
+  }, 800); 
 });
 </script>
 </body>
